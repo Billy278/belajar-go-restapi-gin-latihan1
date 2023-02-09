@@ -1,0 +1,35 @@
+### find all siswa
+GET http://localhost:9000/api/siswa
+Accept: application/json
+### Create Siswa
+
+### find by id siswa
+GET http://localhost:9000/api/siswa/1
+Accept: application/json
+
+### create siswa
+POST http://localhost:9000/api/siswa
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name" :"test",
+    "jurusan" :"IPA",
+    "stambuk" :"2020"
+}
+
+
+### update siswa
+PUT  http://localhost:9000/api/siswa/4
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name" :"andi",
+    "jurusan" :"IPS",
+    "stambuk" :"2018"
+}
+
+###Delete Siswa
+DELETE   http://localhost:9000/api/siswa/100
+Accept: application/json
