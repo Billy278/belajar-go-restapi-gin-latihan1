@@ -15,5 +15,11 @@ func main() {
 	router.PUT("/api/siswa/:id", controller.UpdateSiswa)
 	router.DELETE("/api/siswa/:id", controller.DeleteSiswa)
 
+	router.GET("/api/guru", controller.FindAllGuru)
+	router.POST("/api/guru", controller.CreateGuru)
+	router.GET("/api/guru/:IdGuru", controller.FindByIdGuru)
+	router.PUT("/api/guru/:IdGuru", controller.UpdateGuru)
+	router.DELETE("/api/guru/:IdGuru", controller.DeleteGuru)
+
 	router.Run(":9000")
 }

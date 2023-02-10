@@ -13,9 +13,9 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "name" :"test",
+    "name" :"Billy",
     "jurusan" :"IPA",
-    "stambuk" :"2020"
+    "stambuk" :"2018"
 }
 
 
@@ -32,4 +32,42 @@ Content-Type: application/json
 
 ###Delete Siswa
 DELETE   http://localhost:9000/api/siswa/100
+Accept: application/json
+
+
+### find all guru
+GET http://localhost:9000/api/guru
+Accept: application/json
+
+### create guru 
+POST  http://localhost:9000/api/guru
+Accept: application/json
+Content-Type: application/json
+
+{
+    "id_guru" :"GR01",
+    "name" :"Sir Billy",
+    "birth_day":"2000-08-27T00:00:00Z",
+    "married" :false,
+    "no_hp" :"081263430600"
+}
+
+### update by id guru
+PUT  http://localhost:9000/api/guru/GR01
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name" :"Sir Billy Ginting",
+    "birth_day":"2006-08-08T00:00:00Z",
+    "married" :false,
+    "no_hp" :"081263430600"
+}
+
+### find by id guru
+GET http://localhost:9000/api/guru/GR02
+Accept: application/json
+
+### delete guru
+DELETE  http://localhost:9000/api/guru/GR02
 Accept: application/json
