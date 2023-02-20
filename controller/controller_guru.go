@@ -2,13 +2,11 @@ package controller
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/Billy278/belajar-go-restapi-gin-latihan1/app"
 	"github.com/Billy278/belajar-go-restapi-gin-latihan1/model/domain"
 	"github.com/Billy278/belajar-go-restapi-gin-latihan1/model/web"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 func FindAllGuru(c *gin.Context) {
@@ -23,27 +21,22 @@ func FindAllGuru(c *gin.Context) {
 func FindByIdGuru(c *gin.Context) {
 	id := c.Param("IdGuru")
 	guru := domain.Guru{}
-	err := app.DB.First(&guru, id).Error
-	if err != nil {
-		switch err {
-		case gorm.ErrRecordNotFound:
-			c.AbortWithStatusJSON(http.StatusNotFound, web.WebResponse{
-				Code:   http.StatusNotFound,
-				Status: "Not Found",
-				Data:   err,
-			})
-			return
-		default:
-			c.AbortWithStatusJSON(http.StatusInternalServerError, web.WebResponse{
-				Code:   http.StatusInternalServerError,
-				Status: "Internal Server Error",
-				Data:   err,
-			})
-			return
-		}
+	//err := app.DB.First(&guru, id).Error
+	sql := "Select id_guru,name,birth_day,married,no_hp from gurus where id_guru=?"
+	err := app.DB.Raw(sql, id).Error
+	row := app.DB.Raw(sql, id).Scan(&guru).RowsAffected
 
+	if row == 0 {
+
+		c.AbortWithStatusJSON(http.StatusNotFound, web.WebResponse{
+			Code:   http.StatusNotFound,
+			Status: "Not Found",
+			Data:   err,
+		})
+		return
 	}
-	guru.Id_guru, _ = strconv.Atoi(id)
+
+	guru.Id_guru = id
 	c.JSON(http.StatusOK, web.WebResponse{
 		Code:   http.StatusOK,
 		Status: "Ok",
@@ -62,7 +55,10 @@ func CreateGuru(c *gin.Context) {
 		})
 		return
 	}
-	app.DB.Create(&guru)
+	//app.DB.Create(&guru)
+	sql := "Insert into gurus(id_guru,name,birth_day,married,no_hp) Values(?,?,?,?,?)"
+
+	app.DB.Exec(sql, guru.Id_guru, guru.Name, guru.Birth_day, guru.Married, guru.No_hp)
 	c.JSON(http.StatusOK, web.WebResponse{
 		Code:   http.StatusOK,
 		Status: "Ok",
@@ -82,8 +78,10 @@ func UpdateGuru(c *gin.Context) {
 		})
 		return
 	}
-	rows := app.DB.Model(&guru).Where("id_guru=?", id).Updates(&guru).RowsAffected
-	if rows == 0 {
+	//	rows := app.DB.Model(&guru).Where("id_guru=?", id).Updates(&guru).RowsAffected
+	sql := "Update gurus set name=?,birth_day=?,married=?,no_hp=? Where id_guru=?"
+	err = app.DB.Raw(sql, guru.Name, guru.Birth_day, guru.Married, guru.No_hp, id).Scan(&guru).Error
+	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, web.WebResponse{
 			Code:   http.StatusBadRequest,
 			Status: "Bad Request",
@@ -91,7 +89,7 @@ func UpdateGuru(c *gin.Context) {
 		})
 		return
 	}
-	guru.Id_guru, _ = strconv.Atoi(id)
+	guru.Id_guru = id
 	c.JSON(http.StatusOK, web.WebResponse{
 		Code:   http.StatusOK,
 		Status: "Ok",
@@ -100,10 +98,11 @@ func UpdateGuru(c *gin.Context) {
 }
 
 func DeleteGuru(c *gin.Context) {
-	guru := domain.Guru{}
 	id := c.Param("IdGuru")
 
-	rows := app.DB.Delete(&guru, id).RowsAffected
+	//rows := app.DB.Delete(&guru, id).RowsAffected
+	sql := "Delete from gurus Where id_guru=?"
+	rows := app.DB.Exec(sql, id).RowsAffected
 	if rows == 0 {
 		c.AbortWithStatusJSON(http.StatusBadRequest, web.WebResponse{
 			Code:   http.StatusBadRequest,

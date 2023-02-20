@@ -3,7 +3,7 @@ package domain
 import "time"
 
 type Guru struct {
-	Id_guru   int       `gorm:"primarykey" json:"id_guru"`
+	Id_guru   string    `gorm:"primarykey" json:"id_guru"`
 	Name      string    `grom:"type:varchar(200)" json:"name"`
 	Birth_day time.Time `grom:"type:date" json:"birth_day"`
 	Married   bool      `grom:"type:bool" json:"married"`

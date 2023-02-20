@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ###Delete Siswa
-DELETE   http://localhost:9000/api/siswa/100
+DELETE   http://localhost:9000/api/siswa/4
 Accept: application/json
 
 
@@ -45,7 +45,6 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "id_guru" :"GR01",
     "name" :"Sir Billy",
     "birth_day":"2000-08-27T00:00:00Z",
     "married" :false,
@@ -53,21 +52,21 @@ Content-Type: application/json
 }
 
 ### update by id guru
-PUT  http://localhost:9000/api/guru/GR01
+PUT  http://localhost:9000/api/guru/5
 Accept: application/json
 Content-Type: application/json
 
 {
-    "name" :"Sir Billy Ginting",
-    "birth_day":"2006-08-08T00:00:00Z",
+    "name" :"Emi",
+    "birth_day":"1998-08-08T00:00:00Z",
     "married" :false,
-    "no_hp" :"081263430600"
+    "no_hp" :"081263430611"
 }
 
 ### find by id guru
-GET http://localhost:9000/api/guru/GR02
+GET http://localhost:9000/api/guru/2
 Accept: application/json
 
 ### delete guru
-DELETE  http://localhost:9000/api/guru/GR02
+DELETE  http://localhost:9000/api/guru/4
 Accept: application/json
